@@ -1,0 +1,11 @@
+10
+4 2 300 10 sold
+5 5 400 20 booked
+6 4 500 30 sold
+7 1 600 40 free
+8 6 3000 50 free
+1 4 1000 80 free
+12 2 900 50 booked
+14 4 800 90 free
+13 3 700 70 sold
+2 1 400 60 sold
