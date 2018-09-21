@@ -209,7 +209,7 @@ void profit(flat1* flat_num)
 
 void book_flat(flat1* flat_num)
 {
-	string name1 = "free";
+	
 	int poisk;
 	cin >> poisk;
 	for (int i = 0; i < curr_size; i++)
@@ -221,6 +221,25 @@ void book_flat(flat1* flat_num)
 			flat_num[i].print();
 		}
 	}
+}
+void sold_flat(flat1* flat_num)
+{
+	
+	int poisk;
+	cin >> poisk;
+	for (int i = 0; i < curr_size; i++)
+	{
+
+		if (flat_num[i].number == poisk)
+		{
+			flat_num[i].inf = "sold";
+			flat_num[i].print();
+		}
+	}
+}
+void change(flat1* flat_num)
+{
+
 }
 int main()
 {
@@ -304,6 +323,8 @@ start:
 		profit(f);
 		cout << endl;
 		book_flat(f);
+		cout << endl;
+		sold_flat(f);
 
 		delete[]f;
 	}
