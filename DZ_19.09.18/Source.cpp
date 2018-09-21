@@ -6,32 +6,63 @@ using namespace std;
 ifstream my_file;
 int flat_number = 0;
 int fn_buffer = 0;
+int x = 0;
 int buf_size = 0, curr_size = 0;
 //Разработайте структуру «Квартира» (номер квартиры, кол-во комнат, общая площадь). Разработайте структуру «Дом» (номер, кол-во квартир, массив квартир). 
 
 struct flat
 {
-	int number1;
+	int number;
 	int room_number;
-	int area;
+	double area;
 	void enter()
 	{
 		cout << "Введите номер квартиры, количество комнат и их площадь: ";
-		cin >> number1 >> room_number >> area;
+		cin >> number >> room_number >> area;
 	}
-
 	void print()
 	{
-		cout << "Номер квартиры: " << number1 << " Количество комнат: " << room_number << " Площадь: " << area;
+		cout << "Номер квартиры: " << number << " Количество комнат: " << room_number << " Площадь: " << area;
 	}
 };
 
 struct home
 {
-	int number;
-	
-	flat *flats;	
+	int number;	
+	flat *flats;
 
+	void del() {
+
+		int numb;
+		cout << "введите номер квартиры для удаления = ";
+		cin >> numb;
+
+		flat *tmp;
+		int k = 0;
+
+		for (int i = 0; i < flat_number; i++)
+		{
+			if (flats[i].number == numb) {
+				k = i;
+
+				tmp = new flat[flat_number - 1];
+
+				for (int j = 0, z = 0; j < flat_number - 1; j++, z++)
+				{
+					if (j < k) tmp[j] = flats[j]; else {
+						z++;
+						tmp[j] = flats[z];
+					}
+				}
+
+				delete[]flats;
+
+				flats = tmp;
+				flat_number--;
+				break;
+			}
+		}
+	}
 
 	void add(flat f)
 	{
@@ -40,12 +71,14 @@ struct home
 			fn_buffer = 2;
 			flats = new flat[fn_buffer];
 			flats[flat_number++] = f;
+			x = flat_number;
 		}
 		else
 		{
 			if (flat_number < fn_buffer)
 			{
 				flats[flat_number++] = f;
+				x = flat_number;
 			}
 			else
 			{
@@ -59,6 +92,8 @@ struct home
 				flats = tmp;
 				fn_buffer *= 2;
 				flats[flat_number++] = f;
+				x = flat_number;
+
 			}
 		}
 
@@ -73,56 +108,6 @@ struct home
 	{
 
 		cout << "Номер дома :" << number << endl;
-		for (int i = 0; i < flat_number; i++)
-		{
-			flats[i].print();
-			cout << endl;
-		}
-	}
-	
-	void erase(flat f)
-	{
-		
-		int choice;
-		int index;
-		string poisk;
-		cout << "Введите 1 для удаления по номеру квартиры или 2 для удаления по количеству комнат" << endl;
-		cin >> choice;
-		switch (choice)
-		{
-		case 1:
-		{
-			cin >> poisk;
-			for (int i = 0; i < flat_number; i++)
-			{
-				if (strstr(f[i].number1.c_str(), poisk.c_str()))
-				{
-					index = i;
-					break;
-				}
-			}
-		}
-		break;
-		case 2:
-		{
-			cin >> poisk;
-			for (int i = 0; i < flat_number; i++)
-			{
-				if (strstr(f[i].room_number.c_str(), poisk.c_str()))
-				{
-					index = i;
-					break;
-				}
-			}
-		}
-		break;
-
-		for (int i = 0; i < flat_number - 1; i++)
-		{
-			f[i] = f[i + 1];
-		}
-		flat_number--;
-		}
 		for (int i = 0; i < flat_number; i++)
 		{
 			flats[i].print();
@@ -225,16 +210,16 @@ void profit(flat1* flat_num)
 void book_flat(flat1* flat_num)
 {
 	string name1 = "free";
-	string poisk;
+	int poisk;
 	cin >> poisk;
 	for (int i = 0; i < curr_size; i++)
 	{
 
-		if (strstr(flat_num[i].number.c_str(), poisk.c_str()))
+		if (flat_num[i].number == poisk)
 		{
-
+			flat_num[i].inf = "booked";
+			flat_num[i].print();
 		}
-
 	}
 }
 int main()
@@ -242,12 +227,12 @@ int main()
 	setlocale(LC_ALL, "Rus");
 	my_file.open("in.txt", ios::in);
 	int n = 0;
-	start:
+start:
 	cout << "Введите номер задания: " << endl;
 	cin >> n;
 	if (n == 1)
 	{
-		cout << "Разработайте структуру «Квартира» (номер квартиры, кол-во комнат, общая площадь). Разработайте структуру «Дом» (номер, кол-во квартир, массив квартир). Создайте экземпляр структуры  и реализуйте для него следующие функции: \n •	Печать всех квартир \n • Добавление квартиры \n • Удаление квартиры	" << endl;
+		cout << "Разработайте структуру «Квартира» (номер квартиры, кол-во комнат, общая площадь). Разработайте структуру «Дом» (номер, кол-во квартир, массив квартир). Создайте экземпляр структуры  и реализуйте для него следующие функции: \n - Печать всех квартир \n - Добавление квартиры \n - Удаление квартиры" << endl;
 
 		home ehome;
 		flat f;
@@ -273,14 +258,24 @@ int main()
 			if (flag) break;
 
 		}
+		int n;
 
-		ehome.print();
-		ehome.empty();
-		ehome.erase(f);
-
-
+		while (true)
+		{
+			cout << "1.печать\n 3.удалить\n";
+			cin >> n;
+			switch (n)
+			{
+			case 1:	ehome.print();
+				break;
+			case 2: ehome.empty();
+				break;
+			case 3: ehome.del();
+				break;
+			}
+		}
 	}
-	else if (n==2)
+	else if (n == 2)
 	{
 		cout << "Разработайте приложение «Фирма риелторов». Разработайте структуру «Квартира» (номер квартиры, кол-во комнат, общая площадь, стоимость, продана/свободна/забронирована). Создайте массив из 10 квартир." << endl;
 		flat1 f1;
@@ -307,6 +302,8 @@ int main()
 		print_booked_flat(f);
 		cout << endl;
 		profit(f);
+		cout << endl;
+		book_flat(f);
 
 		delete[]f;
 	}
