@@ -137,6 +137,10 @@ struct flat1
 	{
 		cout << number << " " << room_number << " " << area << " " << cost << " " << inf << endl;
 	}
+	void enter1()
+	{
+		cin >>number>> room_number >> area >> cost >> inf;
+	}
 };
 
 void add(flat1*& flat_num, flat1 a)
@@ -239,7 +243,34 @@ void sold_flat(flat1* flat_num)
 }
 void change(flat1* flat_num)
 {
+	int poisk;
+	int choice;
+	int k;
+	cin >> poisk;
+	for (int i = 0; i < curr_size; i++)
+	{
+		if (flat_num[i].number == poisk)
+		{
+			flat_num[i].print();
+			
+		}
+	}
+	for (int i = 0; i < curr_size; i++)
+	{
+		if (flat_num[i].number == poisk)
+		{
+			flat_num[i].enter1();	
+			break;
+		}
+		
+	}
+	cout << endl;
+	for (int i = 0; i < curr_size; i++)
+	{
+		flat_num[i].print();
 
+	}
+	cout << endl;
 }
 int main()
 {
@@ -325,6 +356,9 @@ start:
 		book_flat(f);
 		cout << endl;
 		sold_flat(f);
+		cout << endl;
+		change(f);
+		cout << endl;
 
 		delete[]f;
 	}
