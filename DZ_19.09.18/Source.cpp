@@ -277,7 +277,6 @@ int main()
 	setlocale(LC_ALL, "Rus");
 	my_file.open("in.txt", ios::in);
 	int n = 0;
-start:
 	cout << "Введите номер задания: " << endl;
 	cin >> n;
 	if (n == 1)
@@ -341,29 +340,43 @@ start:
 		{
 			f[i].print();
 		}
-		cout << endl;
-		cout << "Проданные квартиры: " << endl;
-		print_sold_flat(f);
-		cout << endl;
-		cout << "Свободные квартиры: " << endl;
-		print_free_flat(f);
-		cout << endl;
-		cout << "Забронированные квартиры: " << endl;
-		print_booked_flat(f);
-		cout << endl;
-		profit(f);
-		cout << endl;
-		book_flat(f);
-		cout << endl;
-		sold_flat(f);
-		cout << endl;
-		change(f);
-		cout << endl;
-
+		int choice;
+		
+		while (true)
+		{
+			cout << "Меню:\n 1. Редактировать квартиру; \n 2. Продать квартиру; \n 3. Забронировать квартиру; \n 4. Печать всех проданных квартир; \n 5. Печать всех свободных квартир; \n 6. Печать всех забронированных квартир; \n 7. Расчет прибыли (сумма цены, всех проданных квартир)." << endl;
+			cin >> choice;
+			switch (choice)
+			{
+			case 1: change(f);
+				break;
+			case 2: sold_flat(f);
+				break;
+			case 3: book_flat(f);
+				break;
+			case 4: cout << "Проданные квартиры: " << endl;
+				print_sold_flat(f);
+				break;
+			case 5: cout << "Свободные квартиры: " << endl;
+				print_free_flat(f);
+				break;
+			case 6: cout << "Забронированные квартиры: " << endl;
+				print_booked_flat(f);
+				break;
+			case 7:profit(f);
+				break;
+			default:
+				break;
+			}
+			cout << "Продолжить: 1 - да, 0 -нет: ";
+			int n1;
+			cin >> n1;
+			if (n1 == 0) break;
+		}
 		delete[]f;
 	}
 
-	goto start;
+	
 	system("pause");
 	return 0;
 }
